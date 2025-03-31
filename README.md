@@ -134,4 +134,3 @@ spring.datasource.hikari.initialization-fail-timeout=5000
 
 🚧 O projeto está em desenvolvimento! 🚧
 Sugestões, contribuições e feedbacks são bem-vindos! 🙌
-```
