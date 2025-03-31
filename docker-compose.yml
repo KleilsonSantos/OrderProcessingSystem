@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: postgres:14
+    container_name: postgres_order-processing-system
+    ports:
+      - '5432:5432'
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres-data-order-processing-system:/var/lib/postgresql/data
+    networks:
+      - order-processing-system_custom
+
+volumes:
+  postgres-data-order-processing-system:
+    name: postgres-data-order-processing-system
+
+networks:
+  order-processing-system_custom:
+    driver: bridge
