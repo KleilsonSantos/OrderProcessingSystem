@@ -1,7 +1,8 @@
 services:
+
   postgres:
     image: postgres:14
-    container_name: postgres_order-processing-system
+    container_name: postgres_order-system
     ports:
       - '5432:5432'
     restart: always
@@ -10,14 +11,47 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - postgres-data-order-processing-system:/var/lib/postgresql/data
+      - postgres-data_order-system:/var/lib/postgresql/data
     networks:
-      - order-processing-system_custom
+      - order_system_custom
+
+  sonarqube:
+    image: sonarqube:lts
+    container_name: sonarqube_order-system
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - '9000:9000'
+    environment:
+      SONAR_TOKEN: ${SONAR_TOKEN}
+      SONAR_JDBC_URL: ${SONAR_JDBC_URL}
+      SONAR_JDBC_USERNAME: ${SONAR_JDBC_USERNAME}
+      SONAR_JDBC_PASSWORD: ${SONAR_JDBC_PASSWORD}
+    volumes:
+      - sonarqube-conf_order-system:/opt/sonarqube/conf
+      - sonarqube-data_order-system:/opt/sonarqube/data
+      - sonarqube-logs_order-system:/opt/sonarqube/logs
+      - sonarqube-extensions_order-system:/opt/sonarqube/extensions
+      - sonarqube-bundled_order-system:/opt/sonarqube/lib/bundled-plugins
+    networks:
+      - order_system_custom
 
 volumes:
-  postgres-data-order-processing-system:
-    name: postgres-data-order-processing-system
+  postgres-data_order-system:
+    name: postgres-data_order-system
+  sonarqube-data_order-system:
+    name: sonarqube-data_order-system
+  sonarqube-logs_order-system:
+    name: sonarqube-logs_order-system
+  sonarqube-extensions_order-system:
+    name: sonarqube-extensions_order-system
+  sonarqube-bundled_order-system:
+    name: sonarqube-bundled_order-system
+  sonarqube-conf_order-system:
+    name: sonarqube-conf_order-system
 
 networks:
-  order-processing-system_custom:
+  order_system_custom:
+    name: order_system_custom
     driver: bridge
