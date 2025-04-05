@@ -1,35 +1,85 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+# 🚀 CI/CD Workflow para build de projeto Java com Maven + PostgreSQL
+# 📘 Documentação oficial: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
 
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-name: Java CI with Maven
+name: Java CI with Maven 🧑‍💻
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main" ] # 📤 Dispara ao fazer push na branch principal
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main" ] # 🔄 Dispara ao abrir PRs para a branch principal
 
 jobs:
   build:
+    runs-on: ubuntu-latest # 🖥️ Utiliza a última versão estável do Ubuntu
 
-    runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgres:latest # 🐘 Sobe um container com PostgreSQL
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: postgres # 🔐 Configuração das credenciais
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: orderdb # 🗃️ Banco usado nos testes
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17
+    - name: 📦 Clonando o repositório...
+      uses: actions/checkout@v4
+    - run: echo "✅ Repositório clonado com sucesso! 🎉"
+
+    - name: ☕ Configurando Java 17...
       uses: actions/setup-java@v4
       with:
-        java-version: '17'
+        java-version: '17' # 🎯 Versão alvo do JDK
         distribution: 'temurin'
-        cache: maven
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
+        cache: maven # 🗃️ Cache para acelerar builds futuros
+    - run: echo "✅ Java 17 configurado! 🔧"
 
-    # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
-    - name: Update dependency graph
-      uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
+    #- name: 🌩️ Analisando qualidade com SonarCloud...
+    #  uses: SonarSource/sonarcloud-github-action@v2
+    #  with:
+    #    projectBaseDir: .
+    #    organization: order-system
+    #    projectKey: order-system
+    #- run: echo "✅ Análise com SonarCloud concluída! 📊"
+
+    #- name: 📝 Rodando Checkstyle...
+    #  run: mvn checkstyle:check
+    #- run: echo "✅ Estilo de código verificado! ✔️"
+
+    #- name: 🐛 Rodando SpotBugs...
+    #  run: mvn spotbugs:check
+    #- run: echo "✅ Análise de bugs finalizada! 🕵️"
+
+    - name: 🧪 Executando testes unitários...
+      env:
+        SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/orderdb # 🔗 Configuração DB
+        SPRING_DATASOURCE_USERNAME: postgres
+        SPRING_DATASOURCE_PASSWORD: postgres
+      run: mvn test
+    - run: echo "✅ Testes executados com sucesso! 🧪✅"
+
+    - name: 📊 Gerando relatório de cobertura (JaCoCo)...
+      run: mvn jacoco:report
+    - run: echo "✅ Relatório de cobertura gerado! 📈"
+
+    - name: ⬆️ Enviando relatório como artefato...
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report # 🗂️ Nome do artefato
+        path: target/site/jacoco/index.html # 📍 Caminho do HTML
+    - run: echo "✅ Relatório enviado com sucesso! 📤"
+
+    #- name: 🔐 Verificando vulnerabilidades de dependências...
+    #  run: mvn org.owasp:dependency-check-maven:check
+    #- run: echo "✅ Verificação de vulnerabilidades finalizada! 🔒"
+
+    - name: 🏗️ Compilando projeto com Maven...
+      run: mvn -B package --file pom.xml
+    - run: echo "✅ Projeto compilado com sucesso! 🚀"
+
+    # 📈 Atualização opcional do gráfico de dependências
+    #- name: Atualizando gráfico de dependências...
+    #  uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
+    #- run: echo "✅ Gráfico de dependências atualizado! 📊"
