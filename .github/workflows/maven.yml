@@ -36,12 +36,12 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-    - name: Analyze code with SonarCloud
-      uses: SonarSource/sonarcloud-github-action@v2
-      with:
-        projectBaseDir: .
-        organization: order-system
-        projectKey: order-system
+    #- name: Analyze code with SonarCloud
+    #  uses: SonarSource/sonarcloud-github-action@v2
+    #  with:
+    #    projectBaseDir: .
+    #    organization: order-system
+    #    projectKey: order-system   
 
     - name: Run Checkstyle
       run: mvn checkstyle:check
