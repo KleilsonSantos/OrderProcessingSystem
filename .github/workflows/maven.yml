@@ -58,12 +58,16 @@ jobs:
 
     - name: Generate coverage report
       run: mvn jacoco:report
+
+    - name: Check network connectivity
+      run: ping -c 4 google.com
       
     - name: Upload coverage report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: coverage-report
         path: target/site/jacoco/index.html
+    
     
     - name: Dependency vulnerability check
       run: mvn org.owasp:dependency-check-maven:check
