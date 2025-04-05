@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.example.order-processing-system</groupId>
     <artifactId>order-processing-system</artifactId>
-    <version>0.1.2-SNAPSHOT</version>
+    <version>0.1.5-SNAPSHOT</version>
     <name>Order Processing System</name>
     <description>Demo project for Spring Boot - Order Processing System</description>
     <url/>
