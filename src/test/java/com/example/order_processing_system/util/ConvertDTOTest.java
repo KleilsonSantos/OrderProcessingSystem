@@ -1,17 +1,19 @@
 package com.example.order_processing_system.util;
 
-import com.example.order_processing_system.OrderProcessingSystemApplication;
 import com.example.order_processing_system.dto.OrderDTO;
 import com.example.order_processing_system.exception.ErrorInvalidOrderException;
 import com.example.order_processing_system.model.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static com.example.order_processing_system.util.OrderMockUtil.mockOrder;
 import static com.example.order_processing_system.util.OrderMockUtil.mockOrderDTO;
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(classes = OrderProcessingSystemApplication.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest
 class ConvertDTOTest {
 
     @Test

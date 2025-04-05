@@ -1,5 +1,4 @@
 services:
-
   postgres:
     image: postgres:14
     container_name: postgres_order-system

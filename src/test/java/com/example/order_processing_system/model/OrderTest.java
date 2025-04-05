@@ -2,13 +2,17 @@ package com.example.order_processing_system.model;
 
 import com.example.order_processing_system.dto.OrderDTO;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.opentest4j.AssertionFailedError;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest(classes = Order.class)
+import org.springframework.test.context.junit4.SpringRunner;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
 class OrderTest {
 
     @Test
