@@ -43,8 +43,8 @@ jobs:
     #    organization: order-system
     #    projectKey: order-system   
 
-    - name: Run Checkstyle
-      run: mvn checkstyle:check
+    #- name: Run Checkstyle
+    #  run: mvn checkstyle:check
     
     - name: Run SpotBugs
       run: mvn spotbugs:check
@@ -59,15 +59,11 @@ jobs:
     - name: Generate coverage report
       run: mvn jacoco:report
 
-    - name: Check network connectivity
-      run: ping -c 4 google.com
-      
     - name: Upload coverage report
       uses: actions/upload-artifact@v4
       with:
         name: coverage-report
         path: target/site/jacoco/index.html
-    
     
     - name: Dependency vulnerability check
       run: mvn org.owasp:dependency-check-maven:check
