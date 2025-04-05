@@ -6,6 +6,9 @@ import com.example.order_processing_system.model.Order;
 import java.util.List;
 
 public class OrderMockUtil {
+    private OrderMockUtil() {
+    }
+
     public static Order mockOrder(Long id, double total, String customer) {
         Order order = new Order();
         order.setId(id);
